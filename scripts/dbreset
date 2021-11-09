@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+source dnenv
+
+ef database drop -f
+rm -rf $SRC/Infrastructure/Persistence/Migrations
+dbmig Init
+ef database update

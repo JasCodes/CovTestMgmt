@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+source dnenv
+dnkill
+
+dotnet ef \
+    --verbose \
+    --project $SRC/Infrastructure/Infrastructure.csproj \
+    --startup-project $SRC/API/API.csproj \
+    migrations add \
+    $@ \
+    -o $SRC/Infrastructure/Persistence/Migrations

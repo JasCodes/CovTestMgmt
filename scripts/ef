@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+source dnenv
+dotnet ef \
+    --verbose \
+    --project $SRC/Infrastructure/Infrastructure.csproj \
+    --startup-project $SRC/API/API.csproj \
+    $@
