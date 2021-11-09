@@ -9,7 +9,7 @@ using CovTestMgmt.Domain.Entities;
 using FluentValidation;
 using MediatR;
 
-namespace CovTestMgmt.Application.Commands
+namespace CovTestMgmt.Application.Handlers
 {
     public class LoginOrCreateNewUserResponse
     {

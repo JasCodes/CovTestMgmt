@@ -1,5 +1,4 @@
-﻿using CovTestMgmt.Application.Commands;
-using CovTestMgmt.Application.Exceptions;
+﻿using CovTestMgmt.Application.Exceptions;
 using CovTestMgmt.Application.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Configuration;

@@ -8,7 +8,7 @@ using CovTestMgmt.Application.Interfaces;
 using CovTestMgmt.Domain.Entities;
 using MediatR;
 
-namespace CovTestMgmt.Application.Commands
+namespace CovTestMgmt.Application.Handlers
 {
     public static class CreateCenter
     {

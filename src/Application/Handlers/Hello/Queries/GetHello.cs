@@ -8,12 +8,10 @@ using CovTestMgmt.Domain.Entities;
 using FluentValidation;
 using MediatR;
 
-namespace CovTestMgmt.Application.Queries
+namespace CovTestMgmt.Application.Handlers
 {
     public static class GetHello
     {
-        // public record Query(string name) : IRequest<string>;
-
         public class ResponseDTO
         {
             public string Message { get; init; }

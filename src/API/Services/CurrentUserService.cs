@@ -23,7 +23,7 @@ namespace CovTestMgmt.API.Services
         {
             get
             {
-                var userId = _configuration["Auth:UserOverride"] ?? _httpContextAccessor.HttpContext?.Request?.Headers["USER-ID"];
+                var userId = _configuration["Auth:UserIdOverride"] ?? _httpContextAccessor.HttpContext?.Request?.Headers["USER-ID"];
                 try
                 {
                     return Guid.Parse(userId);
