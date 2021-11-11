@@ -13,6 +13,7 @@ namespace CovTestMgmt.API.Controllers
     /// <summary>
     /// Controller for Center
     /// </summary>
+    /// 
     [ApiVersion("1.0")]
     public class CenterController : ApiControllerBase
     {
@@ -36,23 +37,29 @@ namespace CovTestMgmt.API.Controllers
             _mediator = mediator;
         }
         /// <summary>
-        /// Create a new Center
+        /// List all centers
         /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
+        /// 
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Requires Authentication</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpGet]
-        public async Task<IActionResult> ListCenters([FromQuery] CreateCenter.Query query)
+        [Route("list")]
+        public async Task<ListCentersResponse> ListCenters([FromQuery] ListCentersQuery query)
         {
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            return await _mediator.Send(query);
+
         }
         /// <summary>
         /// Create a new Center
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        [HttpPut]
-        public async Task<IActionResult> CreateCenter([FromQuery] CreateCenter.Query query)
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> CreateCenter([FromQuery] CreateCenterCommand query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -60,3 +67,4 @@ namespace CovTestMgmt.API.Controllers
     }
 
 }
+

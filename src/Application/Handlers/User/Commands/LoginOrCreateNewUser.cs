@@ -11,59 +11,47 @@ using MediatR;
 
 namespace CovTestMgmt.Application.Handlers
 {
-    public class LoginOrCreateNewUserResponse
+    public class LoginOrCreateNewUserCommandResponse
     {
         public Guid UserId { get; init; }
     }
 
-    public class LoginOrCreateNewUserRequest : IRequest<LoginOrCreateNewUserResponse>
+    public class LoginOrCreateNewUserCommand : IRequest<LoginOrCreateNewUserCommandResponse>
 
     {
         public string Phone { get; init; }
         public string Email { get; init; }
     }
 
-    public class LoginOrCreateNewUserHandler : IRequestHandler<LoginOrCreateNewUserRequest, LoginOrCreateNewUserResponse>
+    public class LoginOrCreateNewUserCommandHandler : IRequestHandler<LoginOrCreateNewUserCommand, LoginOrCreateNewUserCommandResponse>
     {
         private readonly IRepository _repository;
 
-        public LoginOrCreateNewUserHandler(IRepository repository)
+        public LoginOrCreateNewUserCommandHandler(IRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<LoginOrCreateNewUserResponse> Handle(LoginOrCreateNewUserRequest request, CancellationToken cancellationToken)
+        public async Task<LoginOrCreateNewUserCommandResponse> Handle(LoginOrCreateNewUserCommand request, CancellationToken cancellationToken)
         {
-            var user = _repository.Users.Select(o => o).FirstOrDefault(o => o.Phone == request.Phone || o.Email == request.Email);
-            // var users = _repository.Users.Where(o => o.Phone == request.Phone && o.Email == request.Email).ToList();
-            // if (users.Any())
-            // {
-            //     return new Response
-            //     {
-            //         Data = new ResponseDTO
-            //         {
-            //             UserId = users.First().Id
-            //         }
-            //     };
-            // }
-            // else
-            // {
-            if (user != null) { return new LoginOrCreateNewUserResponse { UserId = user.Id }; }
+            var user = _repository.Users.Select(x => x).FirstOrDefault(o => o.Phone == request.Phone || o.Email == request.Email);
+
+            if (user != null) { return new LoginOrCreateNewUserCommandResponse { UserId = user.Id }; }
             user = new User
             {
                 Phone = request.Phone,
                 Email = request.Email
             };
             _repository.Users.Add(user);
-            var s = await _repository.SaveChangesAsync(cancellationToken);
-            return new LoginOrCreateNewUserResponse { UserId = user.Id };
+            await _repository.SaveChangesAsync(cancellationToken);
+            return new LoginOrCreateNewUserCommandResponse { UserId = user.Id };
 
         }
     }
 
-    public class LoginOrCreateNewUserValidator : AbstractValidator<LoginOrCreateNewUserRequest>
+    public class LoginOrCreateNewUserCommandValidator : AbstractValidator<LoginOrCreateNewUserCommand>
     {
-        public LoginOrCreateNewUserValidator()
+        public LoginOrCreateNewUserCommandValidator()
         {
             RuleFor(o => o)
             .Must(o => !String.IsNullOrWhiteSpace(o.Email) || !String.IsNullOrWhiteSpace(o.Phone))
@@ -72,9 +60,6 @@ namespace CovTestMgmt.Application.Handlers
             RuleFor(o => o)
             .Must(o => String.IsNullOrWhiteSpace(o.Email) || String.IsNullOrWhiteSpace(o.Phone))
             .WithMessage("Can't use both email and phone.");
-            // RuleFor(o => o)
-            // .Must(o => String.IsNullOrWhiteSpace(o.Email) || String.IsNullOrWhiteSpace(o.Phone))
-            // .WithMessage("Can't use both email and phone2.");
 
             RuleFor(o => o.Email).EmailAddress().WithMessage("Invalid email address.");
         }

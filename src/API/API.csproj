@@ -6,6 +6,7 @@
     <AssemblyName>CovTestMgmt.API</AssemblyName>
     <RootNamespace>CovTestMgmt.API</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

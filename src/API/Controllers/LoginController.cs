@@ -23,18 +23,10 @@ namespace CovTestMgmt.API.Controllers
         }
 
         [HttpPost]
-        // [ProducesResponseType(typeof(LoginOrCreateNewUser.Response), 200)]
-
-        public async Task<LoginOrCreateNewUserResponse> LoginOrCreateNewUser([FromQuery] LoginOrCreateNewUserRequest request)
+        public async Task<LoginOrCreateNewUserCommandResponse> LoginOrCreateNewUser([FromQuery] LoginOrCreateNewUserCommand request)
         {
             return await _mediator.Send(request);
         }
-        // [HttpPost]
-        // public async Task<IActionResult> LoginOrCreateNewUser([FromQuery] LoginOrCreateNewUser.Request request)
-        // {
-        //     var result = await _mediator.Send(request);
-        //     return Ok(result);
-        // }
     }
 
 }

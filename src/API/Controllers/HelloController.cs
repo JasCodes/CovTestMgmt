@@ -36,10 +36,9 @@ namespace CovTestMgmt.API.Controllers
 
         [HttpGet]
         [ApiVersion("2.0")]
-        public async Task<IActionResult> GetHelloWorld2([FromQuery] GetHello.Query query)
+        public async Task<GetHelloQueryResponse> GetHelloWorld2([FromQuery] GetHelloQuery query)
         {
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            return await _mediator.Send(query);
         }
     }
 

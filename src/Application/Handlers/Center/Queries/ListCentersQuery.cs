@@ -8,35 +8,36 @@ using CovTestMgmt.Application.Interfaces;
 using CovTestMgmt.Domain.Entities;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CovTestMgmt.Application.Handlers
 {
-    public class GetCentersListResponse
+    public class ListCentersResponse
     {
         // public Guid UserId { get; init; }
         public List<Center> Centers { get; init; }
     }
 
-    public class GetCentersListRequest : IRequest<GetCentersListResponse>
+    public class ListCentersQuery : IRequest<ListCentersResponse>
 
     {
         // public string Phone { get; init; }
         // public string Email { get; init; }
     }
 
-    public class GetCentersListHandler : IRequestHandler<GetCentersListRequest, GetCentersListResponse>
+    public class ListCentersHandler : IRequestHandler<ListCentersQuery, ListCentersResponse>
     {
         private readonly IRepository _repository;
 
-        public GetCentersListHandler(IRepository repository)
+        public ListCentersHandler(IRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<GetCentersListResponse> Handle(GetCentersListRequest request, CancellationToken cancellationToken)
+        public async Task<ListCentersResponse> Handle(ListCentersQuery request, CancellationToken cancellationToken)
         {
-            var centers = _repository.Centers.ToList();
-            return new GetCentersListResponse() { Centers = centers };
+            var centers = await _repository.Centers.ToListAsync();
+            return new ListCentersResponse { Centers = centers }; ;
         }
     }
 

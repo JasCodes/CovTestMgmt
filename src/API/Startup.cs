@@ -40,8 +40,7 @@ namespace API
             services.AddApplication();
             services.AddInfrastructure(Configuration);
 
-            // services.AddControllersWithViews(o => o.Filters.Add(typeof(ResponseMappingFilter)));
-            services.AddControllersWithViews(options =>
+            services.AddControllers(options =>
                             options.Filters.Add<ApiExceptionFilterAttribute>())
                                 .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
 
@@ -92,33 +91,8 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
-            // if (env.IsDevelopment())
-            // {
-            //     app.UseDeveloperExceptionPage();
-            // }
-            // else
-            // {
-            // app.UseExceptionHandler("/error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //     app.UseHsts();
-            // }
-            // app.UseExceptionHandler("/error");
-            // if (env.IsDevelopment())
-            // {
-            // app.UseExceptionHandler("/error-local-development");
-            // }
-            // else
-            // {
-            //     app.UseExceptionHandler("/error");
-            // }
-
-            app.UseHttpsRedirection();
-
-
-            app.UseStaticFiles();
 
             app.UseSwagger();
-
             app.UseSwaggerUI(options =>
             {
                 foreach (var description in provider.ApiVersionDescriptions)
@@ -128,15 +102,9 @@ namespace API
                 }
             });
             app.UseRouting();
-
-            // app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "/swagger");
-                // pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
 
 

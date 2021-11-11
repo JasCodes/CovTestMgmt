@@ -30,7 +30,7 @@ namespace CovTestMgmt.Application.Behaviours
         {
 
             // Must be authenticated user
-            if (_currentUserService.UserId == null)
+            if (_currentUserService.UserId == Guid.Empty)
             {
                 throw new UnauthorizedAccessException();
             }
