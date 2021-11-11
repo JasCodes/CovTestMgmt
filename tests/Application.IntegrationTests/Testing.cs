@@ -114,9 +114,8 @@ namespace CovTestMgmt.Application.IntegrationTests
         public static async Task ResetState()
         {
             using var scope = _scopeFactory.CreateScope();
-            var c = scope.ServiceProvider.GetService<ApplicationDbContext>().Database.GetConnectionString();
-            await _checkpoint.Reset(c);
-            // await _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            await _checkpoint.Reset(connectionString);
             _currentUserId = Guid.Empty;
         }
 

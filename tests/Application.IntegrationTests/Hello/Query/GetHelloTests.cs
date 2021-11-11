@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CovTestMgmt.Application.Exceptions;
 using CovTestMgmt.Application.Handlers;
 using CovTestMgnt.Application.IntegrationTests;
 using FluentAssertions;
@@ -13,17 +14,20 @@ namespace CovTestMgmt.Application.IntegrationTests.Hello.Query
     public class GetHelloTests : TestBase
     {
         [Test]
-        public async Task GetHelloEmptyShouldReturnDefault()
+        public async Task GetHelloEmptyShouldThrowValidationError()
         {
             var query = new GetHelloQuery();
 
-            // FluentActions.Invoking(() =>
-            //     SendAsync(query)
-            //     )
-            //     .Should().;
+            await FluentActions.Invoking(() =>
+                SendAsync(query)).Should().ThrowAsync<ValidationException>();
+        }
 
+        [Test]
+        public async Task GetHelloTest()
+        {
+            var query = new GetHelloQuery { Name = "Jas" };
             var response = await SendAsync(query);
-            response.Should().Equals("Hello, World!");
+            response.Message.Should().Be("Hello Jas");
         }
     }
 }

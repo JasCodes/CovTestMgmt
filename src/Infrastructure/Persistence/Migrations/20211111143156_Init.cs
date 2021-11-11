@@ -11,8 +11,8 @@ namespace CovTestMgmt.Infrastructure.Persistence.Migrations
                 name: "Centers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -23,11 +23,11 @@ namespace CovTestMgmt.Infrastructure.Persistence.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Phone = table.Column<string>(type: "TEXT", maxLength: 4, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    PassportNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    NationalId = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PassportNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NationalId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,13 +38,15 @@ namespace CovTestMgmt.Infrastructure.Persistence.Migrations
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
-                unique: true);
+                unique: true,
+                filter: "[Email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Phone",
                 table: "Users",
                 column: "Phone",
-                unique: true);
+                unique: true,
+                filter: "[Phone] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

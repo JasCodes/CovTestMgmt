@@ -19,14 +19,14 @@ namespace CovTestMgmt.Application.Handlers
 
     {
         [DefaultValue("World")]
-        public string name { get; init; }
+        public string Name { get; init; }
     }
 
     public class GetHelloQueryHandler : IRequestHandler<GetHelloQuery, GetHelloQueryResponse>
     {
         public async Task<GetHelloQueryResponse> Handle(GetHelloQuery request, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(new GetHelloQueryResponse { Message = $"Hello {request.name}" });
+            return await Task.FromResult(new GetHelloQueryResponse { Message = $"Hello {request.Name}" });
         }
     }
 
@@ -34,7 +34,7 @@ namespace CovTestMgmt.Application.Handlers
     {
         public GetHelloQueryValidator()
         {
-            RuleFor(x => x.name).NotEmpty().WithMessage("Name is required");
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required");
         }
     }
 

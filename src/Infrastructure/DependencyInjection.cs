@@ -11,21 +11,22 @@ namespace CovTestMgmt.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            string ConnectionString = configuration.GetValue<string>("ConnectionString");
-            if (string.IsNullOrWhiteSpace(ConnectionString))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlite("Data Source=database.sqlite"));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
-                        ConnectionString,
-                        x => x.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
-                    )
-                );
-            }
+            // string ConnectionString = configuration.GetValue<string>("ConnectionString");
+
+            // if (string.IsNullOrWhiteSpace(ConnectionString))
+            // {
+            //     services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlite("Data Source=database.sqlite"));
+            // }
+            // else
+            // {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    configuration.GetConnectionString("DefaultConnection"),
+                    x => x.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                )
+            );
+            // }
             // services.AddDbContext<AppDbContext>(options =>
             //     options.UseInMemoryDatabase("CovTestMgmtDb"));
 
